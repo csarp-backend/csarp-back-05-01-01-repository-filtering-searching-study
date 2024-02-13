@@ -10,7 +10,8 @@ namespace Kreta.Shared.Extensions
             return new StudentQueryParametersDto
             {
                 MaxYearOfBirth = parameters.MaxYearOfBirth,
-                MinYearOfBirth = parameters.MinYearOfBirth
+                MinYearOfBirth = parameters.MinYearOfBirth,
+                Name = parameters.Name,
             };
         }
 
@@ -19,7 +20,8 @@ namespace Kreta.Shared.Extensions
             return new StudentQueryParameters
             {
                 MinYearOfBirth = parameters.MinYearOfBirth,
-                MaxYearOfBirth = parameters.MaxYearOfBirth
+                MaxYearOfBirth = parameters.MaxYearOfBirth,
+                Name = parameters.Name,
             };
         }
     }
