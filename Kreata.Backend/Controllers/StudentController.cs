@@ -2,6 +2,7 @@
 using Kreta.Shared.Dtos;
 using Kreta.Shared.Extensions;
 using Kreta.Shared.Models;
+using Kreta.Shared.Parameters;
 using Kreta.Shared.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -108,6 +109,33 @@ namespace Kreta.Backend.Controllers
             }
             response.ClearAndAddError("Az új adatok mentése nem lehetséges!");
             return BadRequest(response);
+        }
+
+        [HttpPost("/queryparameters")]
+        public async Task<IActionResult> GetStudents([FromQuery] StudentQueryParametersDto dto)
+        {
+            StudentQueryParameters parameters = dto.ToStudentQueryParameters();
+            if (!parameters.ValidYearRange)
+            {
+                ControllerResponse response = new ControllerResponse();
+                response.AppendNewError("A születési év maximuma nagyobb kell legyen a születési év minimumánál!");
+                return BadRequest(response);
+            }
+            else
+            {
+                if (_studentRepo is null)
+                {
+                    ControllerResponse response = new ControllerResponse();
+                    response.AppendNewError("A diákok szűrése születési év alapján nem lehetséges");
+                    return BadRequest(response);
+                }
+                else
+                {
+                    List<Student> result = await _studentRepo.GetStudents(parameters).ToListAsync();
+                    return Ok(result);
+                }
+            }
+
         }
     }
 }
