@@ -15,10 +15,24 @@ namespace Kreta.Backend.Repos
 
         public IQueryable<Student> GetStudents(StudentQueryParameters parameters)
         {
-            return FindByCondition(student => student.BirthDay.Year >= parameters.MinYearOfBirth
+            IQueryable<Student> filteredStudent = FindByCondition(student => student.BirthDay.Year >= parameters.MinYearOfBirth
                                            && student.BirthDay.Year <= parameters.MaxYearOfBirth
                                   )
                                   .OrderBy(student => student.HungarianFullName);
+            
+            SearchByStudentName(ref filteredStudent, parameters.Name);
+            return filteredStudent;
+
         }
+
+        private void SearchByStudentName(ref IQueryable<Student> students, string studentName)
+        {
+            if (!students.Any() || string.IsNullOrEmpty(studentName))
+            {
+                return;
+            }
+            students = students.Where(student => student.HungarianFullName.ToLower().Contains(studentName.Trim().ToLower()));
+        }
+
     }
 }
