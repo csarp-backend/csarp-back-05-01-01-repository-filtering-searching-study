@@ -45,7 +45,12 @@ namespace Kreta.Shared.Models
         public SchoolClassType SchoolClass { get; set; }
         public string EducationLevel { get; set; }
         public bool HasId => Id != Guid.Empty;
-        public string HungarianFullName => $"{LastName} {FirstName}";
+
+        public string HungarianFullName
+        {
+            set { }
+            get => $"{LastName} {FirstName}";
+        }
 
         public override string ToString()
         {
