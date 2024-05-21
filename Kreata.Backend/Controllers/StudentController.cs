@@ -111,7 +111,7 @@ namespace Kreta.Backend.Controllers
             return BadRequest(response);
         }
 
-        [HttpPost("/queryparameters")]
+        [HttpPost("queryparameters")]
         public async Task<IActionResult> GetStudents([FromQuery] StudentQueryParametersDto dto)
         {
             StudentQueryParameters parameters = dto.ToStudentQueryParameters();
